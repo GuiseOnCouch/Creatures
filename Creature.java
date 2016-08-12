@@ -1,13 +1,13 @@
 /***************************************
  *  Creature.java                      *
  *  Creature data object               *
- *  Version 0.0.1                      *
+ *  Version 0.0.2                      *
  *  August 10, 2016                    *
  *  - includes stats and constructors  *
  ***************************************/
 
 import java.util.Random;
-import java.util.math;
+import java.lang.Math;
 
 public class Creature {
 
@@ -61,11 +61,11 @@ public class Creature {
 	// constructor for Creature generated from parent creature stats
 	public Creature(Creature p1, Creature p2) {
 		this.alive = true;
-		this.lifespan = range(0, max_lifespan, (pick(p1.lifespan, p2.lifespan) + random.nextInt(11) -5);
+		this.lifespan = range(0, max_lifespan, (pick(p1.lifespan, p2.lifespan) + random.nextInt(11) -5));
 		this.age = 0;
 
 		this.sex = random.nextBoolean();
-		this.aggression = range(0.0, 1.0, (pick(p1.aggression, p2.aggression) + (random.nextDouble()/5 -0.1));
+		this.aggression = range(0.0, 1.0, (pick(p1.aggression, p2.aggression) + random.nextDouble()/5 -0.1));
 		this.speed = range(0, max_speed, (pick(p1.speed, p2.speed) + random.nextInt(3) -1));
 		
 		this.totalHealth = range(0, max_health, (pick(p1.totalHealth, p2.totalHealth) + random.nextInt(21) -10));
@@ -73,24 +73,30 @@ public class Creature {
 		this.attractiveness = range(0, max_attractive, (pick(p1.attractiveness, p2.attractiveness) + random.nextInt(11) -5));
 		this.strength = range(0, max_strength, (pick(p1.strength, p2.strength) + random.nextInt(11) -5));
 		this.sight = 1; //range(0, max_sight, (pick(p1.sight, p2.sight) + random.nextInt(5) -2));
-		this.efficiency = range(0.0, 1.0, (pick(p1.efficiency, p2.efficiency) + nextDouble()/5 -0.1));
-		this.curiosity = range(0.0, 1.0, (pick(p1.curiosity, p2.curiosity) + nextDouble()/5 -0.1));
+		this.efficiency = range(0.0, 1.0, (pick(p1.efficiency, p2.efficiency) + random.nextDouble()/5 -0.1));
+		this.curiosity = range(0.0, 1.0, (pick(p1.curiosity, p2.curiosity) + random.nextDouble()/5 -0.1));
 	}
 
 	// return double value within specified range
 	private double range(double min, double max, double val) {
-		return math.min(max, math.max(min, val));
+		return Math.min(max, Math.max(min, val));
 	}
 
 	// return int value within specified range
 	private int range(int min, int max, int val) {
-		return math.min(max, math.max(min, val));
+		return Math.min(max, Math.max(min, val));
 	}
 
-	// choose a random generic of two inputs
-	private <E> pick(<E> a, <E> b) {
+	// choose a random double of two inputs
+	private double pick(double a, double b) {
 		if (random.nextBoolean()) return a;
-		else return b; 
+		else return b;
+	}
+
+	// choose a random int of two inputs
+	private int pick(int a, int b) {
+		if (random.nextBoolean()) return a;
+		else return b;
 	}
 
 	// calculate age for random Creature
@@ -109,6 +115,22 @@ public class Creature {
 		if (other.attractiveness >= random.nextInt(11) +5) {
 			score++;
 		}
+		return score > 0;
+	}
+
+	// determines this creature's action each round
+	public void act() {
+		if (health < totalHealth) {
+			//path to food
+		}
+		// path from hostiles
+		// path to mate
+		// path random (curiosity)
+	}
+
+	// determines how this creature will interact with another creature
+	public void interact(Creature other) {
+
 	}
 /*******************
  *  Interactions:  *
