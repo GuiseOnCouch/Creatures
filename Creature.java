@@ -1,15 +1,14 @@
 /***************************************
  *  Creature.java                      *
  *  Creature data object               *
- *  Version 0.0.2                      *
- *  August 10, 2016                    *
+ *  Version 0.0.3                      *
+ *  August 12, 2016                    *
  *  - includes stats and constructors  *
  ***************************************/
 
-import java.util.Random;
-import java.lang.Math;
-
-public class Creature {
+public class Creature extends Utilities {
+	private char name;
+	private static int nameInc = 0;
 
 	private boolean alive;
 	private static int max_lifespan = 1000;
@@ -37,13 +36,12 @@ public class Creature {
 	private double efficiency;
 	private double curiosity;
 
-	final static Random random = new Random();
-
 	// constructor for Creature, generated with random stats
 	public Creature() {
+		this.name = nextName();
 		this.alive = true;
 		this.lifespan = random.nextInt(max_lifespan - 9) + 10;
-		this.age = age();
+		this.age = random.nextInt(lifespan);
 
 		this.sex = (lifespan % 2 == 1);
 		this.aggression = random.nextDouble();
@@ -60,6 +58,7 @@ public class Creature {
 
 	// constructor for Creature generated from parent creature stats
 	public Creature(Creature p1, Creature p2) {
+		this.name = nextName();
 		this.alive = true;
 		this.lifespan = range(0, max_lifespan, (pick(p1.lifespan, p2.lifespan) + random.nextInt(11) -5));
 		this.age = 0;
@@ -77,32 +76,12 @@ public class Creature {
 		this.curiosity = range(0.0, 1.0, (pick(p1.curiosity, p2.curiosity) + random.nextDouble()/5 -0.1));
 	}
 
-	// return double value within specified range
-	private double range(double min, double max, double val) {
-		return Math.min(max, Math.max(min, val));
-	}
-
-	// return int value within specified range
-	private int range(int min, int max, int val) {
-		return Math.min(max, Math.max(min, val));
-	}
-
-	// choose a random double of two inputs
-	private double pick(double a, double b) {
-		if (random.nextBoolean()) return a;
-		else return b;
-	}
-
-	// choose a random int of two inputs
-	private int pick(int a, int b) {
-		if (random.nextBoolean()) return a;
-		else return b;
-	}
-
-	// calculate age for random Creature
-	private int age() {
-		int age = random.nextInt(lifespan);
-		return age;
+	// increment age
+	private void age() {
+		age++;
+		if (age > lifespan) {
+			alive = false;
+		}
 	}
 
 	// check if this Creature will mate with another input Creature
@@ -131,6 +110,17 @@ public class Creature {
 	// determines how this creature will interact with another creature
 	public void interact(Creature other) {
 
+	}
+
+	// get the next name
+	private char nextName() {
+		char name = (char) (nameInc + ((int) 'a'));
+		nameInc = (nameInc + 1) % 52;
+		return name;
+	}
+	
+	public char getName() {
+		return name;
 	}
 /*******************
  *  Interactions:  *
